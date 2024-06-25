@@ -65,12 +65,16 @@ class BinaryTree {
         }
     }
 
-    inOrder(root) {
+    inOrder(root,arr=[]) {
         if (root) {
-            this.inOrder(root.left)
-            console.log(root.val);
-            this.inOrder(root.right)
+            this.inOrder(root.left, arr);
+           
+                if(root.left||root.right) arr.push(root.val)
+         
+            this.inOrder(root.right, arr);
         }
+
+        return arr
     }
     postOrder(root) {
         if (root) {
@@ -132,10 +136,88 @@ class BinaryTree {
         }
 
     }
-    isBst(root, min, max) {
-        if (!root) return true
-        if (root.val < min || root.val > max) return false
-        return this.isBst(root.left, min, root.val - 1) && this.isBst(root.right, root.val + 1, max)
+    isBST(root,min,max){
+
+        if(!root) return true
+        
+        if(root.val<min||root.val>max) return false
+    
+    
+        return this.isBST(root.left,min,root.val) &&
+          this.isBST(root.right,root.val,max)
+      }
+
+
+    
+
+    isPrime(num) {
+        if (num < 2) return false
+        if (num===2)return true
+        for (let i = 2; i < num/2; i++){
+            if (num % i == 0) {
+                return false
+            }
+        }
+        return true
+    }
+
+    heightOfNode(node) {
+        if (node === null) {
+            return 0
+        }
+
+        let leftHeight=this.heightOfNode(node.left)
+        let rightHeight = this.heightOfNode(node.left)
+        
+        let heightDiff = Math.abs(leftHeight - rightHeight)
+        
+        if(heightDiff > 1) return -1
+
+        return Math.max(leftHeight,rightHeight)+1
+    }
+
+     isBalanced(node) {
+        if (node === null) {
+          return true; // Empty tree is considered balanced
+        }
+      
+        // Check left and right subtree balance recursively
+        const leftBalanced = this.isBalanced(node.left);
+        const rightBalanced = this.isBalanced(node.right);
+      
+        
+        const heightDifference = Math.abs(this.heightOfNode(node.left) - this.heightOfNode(node.right));
+        return leftBalanced && rightBalanced && heightDifference <= 1;
+      }
+      
+
+    closest(num) {
+        let arr =  this.inOrder(this.root)
+        
+       
+        let closest = 0
+        let diff = Infinity
+        
+        for (let i = 0; i < arr.length; i++) {
+            if (Math.abs(arr[i] - num) < diff) {
+                diff = Math.abs(arr[i] - num)
+                closest = arr[i]
+            }
+
+        }
+        return closest
+
+    }
+
+    secondLargest() {
+        let arr = this.inOrder(this.root)
+
+        return arr[arr.length-2]
+    }
+
+    smalltestParent() {
+
+        return this.inOrder(this.root)[0]
     }
 }
 
@@ -146,11 +228,15 @@ tree.insert(5)
 tree.insert(3)
 tree.insert(7)
 tree.insert(15)
+tree.insert(12)
+tree.insert(17)
+tree.insert(20)
 
 
+console.log(tree.isBST(tree.root));
 
 
-tree.levelOrder()
+console.log('gfdgdf',tree.smalltestParent());
 
 
 

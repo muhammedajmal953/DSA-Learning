@@ -80,17 +80,33 @@ class Heap {
         }
     }
 
+    // heapSort() {
+    //     const sortedArray = [];
+    //     const heapLength = this.heap.length;
+
+    //     for (let i = 0; i < heapLength; i++) {
+    //         sortedArray.push(this.removeMin());
+    //     }
+
+    //     return sortedArray;
+    // }
+
     heapSort() {
-        const sortedArray = [];
-        const heapLength = this.heap.length;
+        const n = this.heap.length
 
-        for (let i = 0; i < heapLength; i++) {
-            sortedArray.push(this.removeMin());
+        for (let i = n - 1; i >= 0; i--) {
+            this.heapifyDown(i) // Heapify the entire heap      
+        }  
+
+        for (let i = n - 1; i >= 0; i--) {
+            this.swap(0, i) // Swap the first element with the last element
+            this.heapifyDown(0) // Heapify the heap again
         }
+        
 
-        return sortedArray;
+        return this.heap    
     }
-
+   
 }
 
 let heap = new Heap()
